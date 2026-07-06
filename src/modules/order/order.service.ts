@@ -1,6 +1,4 @@
-import { prisma } from "../../config/prisma.ts"; 
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { prisma } from "../../config/prisma.ts";
 
 interface OrderData {
     name: string;

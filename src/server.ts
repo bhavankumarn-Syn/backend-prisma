@@ -8,6 +8,7 @@ import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes.ts";
 import {authenticateToken} from "./middleware/auth.ts";
 import ordersRoutes from "./modules/order/order.routes.ts";
+import { UPLOAD_DIR } from "./middleware/upload.ts";
 import path from "path";
 
 const app = express();
@@ -16,12 +17,15 @@ app.use(cors());
 app.use(express.json());
 app.use(
   "/uploads",
-  express.static(path.join(process.cwd(), "uploads"))
+  express.static(path.resolve(UPLOAD_DIR))
 );
-// app.use(authenticateToken);
+
+// Health check endpoint for Railway / uptime monitoring.
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
 
 app.use("/api/orders", authenticateToken , ordersRoutes);
-// app.use("/api/orders" , ordersRoutes);
 
 app.use("/api/auth", authRoutes);
 
